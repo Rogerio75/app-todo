@@ -1,14 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-//interface
+import { Component, DoCheck } from '@angular/core';
+
 import { Tasklist } from '../../model/tasklist';
 
+//interface
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss']
 })
-export class TodoListComponent implements OnInit {
-public tasKList: Array<Tasklist>= [
+export class TodoListComponent implements DoCheck {
+ngDoCheck(): void {
+  this.tasKList.sort((first, last) =>Number (first.checked) - Number(last.checked));
+}
+
+  public tasKList: Array<Tasklist>= [
 
 ];
 
@@ -29,10 +34,21 @@ if (confirm){
 this.tasKList = [];
 }
 }
+public validationInput (event:string, index: number){
+if(!event.length){
+  const confirm = window.confirm("Task está vazia, deseja apagar");
 
-ngOnInit(): void {
+  if (confirm){
+    this.deleteItemTasklist(index);
+
+  }
+
+
+}
+
 
 
 }
 
 }
+
